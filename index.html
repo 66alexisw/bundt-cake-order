@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bundt Cake Order</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+        .cake-option {
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Bundt Cake Order</h1>
+
+<!-- QR Code Section -->
+<div id="qrSection">
+    <p>Scan to Order</p>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://yourwebsite.com" alt="QR Code">
+    <p>Or click below:</p>
+    <button onclick="startOrder()">Start Order</button>
+</div>
+
+<!-- Step 1: Name & Email -->
+<div id="infoSection" class="hidden">
+    <h2>Your Information</h2>
+    <input type="text" id="name" placeholder="Your Name" required><br><br>
+    <input type="email" id="email" placeholder="Your Email" required><br><br>
+    <button onclick="nextStep()">Next</button>
+</div>
+
+<!-- Step 2: Pick Flavors -->
+<div id="flavorSection" class="hidden">
+    <h2>Select Bundt Cake Flavors ($8 each)</h2>
+
+    <div class="cake-option">
+        Chocolate <input type="number" min="0" value="0" id="chocolate">
+    </div>
+
+    <div class="cake-option">
+        Vanilla <input type="number" min="0" value="0" id="vanilla">
+    </div>
+
+    <div class="cake-option">
+        Red Velvet <input type="number" min="0" value="0" id="redvelvet">
+    </div>
+
+    <div class="cake-option">
+        Lemon <input type="number" min="0" value="0" id="lemon">
+    </div>
+
+    <button onclick="calculateTotal()">See Total</button>
+</div>
+
+<!-- Step 3: Total & Payment -->
+<div id="totalSection" class="hidden">
+    <h2>Your Total</h2>
+    <p id="totalAmount"></p>
+    <button onclick="goToPayment()">Proceed to Payment</button>
+</div>
+
+<script>
+    const pricePerCake = 8;
+
+    function startOrder() {
+        document.getElementById("qrSection").classList.add("hidden");
+        document.getElementById("infoSection").classList.remove("hidden");
+    }
+
+    function nextStep() {
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+
+        if (name === "" || email === "") {
+            alert("Please enter your name and email.");
+            return;
+        }
+
+        document.getElementById("infoSection").classList.add("hidden");
+        document.getElementById("flavorSection").classList.remove("hidden");
+    }
+
+    function calculateTotal() {
+        const chocolate = parseInt(document.getElementById("chocolate").value) || 0;
+        const vanilla = parseInt(document.getElementById("vanilla").value) || 0;
+        const redvelvet = parseInt(document.getElementById("redvelvet").value) || 0;
+        const lemon = parseInt(document.getElementById("lemon").value) || 0;
+
+        const totalQuantity = chocolate + vanilla + redvelvet + lemon;
+        const totalPrice = totalQuantity * pricePerCake;
+
+        if (totalQuantity === 0) {
+            alert("Please select at least one cake.");
+            return;
+        }
+
+        document.getElementById("flavorSection").classList.add("hidden");
+        document.getElementById("totalSection").classList.remove("hidden");
+        document.getElementById("totalAmount").innerText = 
+            "Total: $" + totalPrice + " (" + totalQuantity + " cakes)";
+    }
+
+    function goToPayment() {
+        window.location.href = "YOUR_PAY_LINK";
+    }
+</script>
+
+</body>
+</html>
