@@ -30,7 +30,7 @@
 <!-- QR Code Section -->
 <div id="qrSection">
     <p>Scan to Order</p>
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://yourwebsite.com" alt="QR Code">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://66alexisw.github.io/" alt="QR Code">
     <p>Or click below:</p>
     <button onclick="startOrder()">Start Order</button>
 </div>
@@ -47,21 +47,17 @@
 <div id="flavorSection" class="hidden">
     <h2>Select Bundt Cake Flavors ($8 each)</h2>
 
-    <div class="cake-option">
-        Chocolate <input type="number" min="0" value="0" id="chocolate">
-    </div>
-
-    <div class="cake-option">
-        Vanilla <input type="number" min="0" value="0" id="vanilla">
-    </div>
-
-    <div class="cake-option">
-        Red Velvet <input type="number" min="0" value="0" id="redvelvet">
-    </div>
-
-    <div class="cake-option">
-        Lemon <input type="number" min="0" value="0" id="lemon">
-    </div>
+    <div class="cake-option">Red Velvet <input type="number" min="0" value="0" id="redvelvet"></div>
+    <div class="cake-option">Confetti <input type="number" min="0" value="0" id="confetti"></div>
+    <div class="cake-option">Lemon <input type="number" min="0" value="0" id="lemon"></div>
+    <div class="cake-option">Chocolate Chocolate Chip <input type="number" min="0" value="0" id="chocochocchip"></div>
+    <div class="cake-option">White Chocolate Raspberry <input type="number" min="0" value="0" id="whitechocrasp"></div>
+    <div class="cake-option">Classic Vanilla <input type="number" min="0" value="0" id="vanilla"></div>
+    <div class="cake-option">Strawberries & Cream <input type="number" min="0" value="0" id="strawcream"></div>
+    <div class="cake-option">Carrot <input type="number" min="0" value="0" id="carrot"></div>
+    <div class="cake-option">Oreo Cookies n Cream <input type="number" min="0" value="0" id="oreo"></div>
+    <div class="cake-option">GF Chocolate Chip Cookie <input type="number" min="0" value="0" id="gfchocchip"></div>
+    <div class="cake-option">GF Lemon Raspberry <input type="number" min="0" value="0" id="gflemonrasp"></div>
 
     <button onclick="calculateTotal()">See Total</button>
 </div>
@@ -95,12 +91,19 @@
     }
 
     function calculateTotal() {
-        const chocolate = parseInt(document.getElementById("chocolate").value) || 0;
-        const vanilla = parseInt(document.getElementById("vanilla").value) || 0;
         const redvelvet = parseInt(document.getElementById("redvelvet").value) || 0;
+        const confetti = parseInt(document.getElementById("confetti").value) || 0;
         const lemon = parseInt(document.getElementById("lemon").value) || 0;
+        const chocochocchip = parseInt(document.getElementById("chocochocchip").value) || 0;
+        const whitechocrasp = parseInt(document.getElementById("whitechocrasp").value) || 0;
+        const vanilla = parseInt(document.getElementById("vanilla").value) || 0;
+        const strawcream = parseInt(document.getElementById("strawcream").value) || 0;
+        const carrot = parseInt(document.getElementById("carrot").value) || 0;
+        const oreo = parseInt(document.getElementById("oreo").value) || 0;
+        const gfchocchip = parseInt(document.getElementById("gfchocchip").value) || 0;
+        const gflemonrasp = parseInt(document.getElementById("gflemonrasp").value) || 0;
 
-        const totalQuantity = chocolate + vanilla + redvelvet + lemon;
+        const totalQuantity = redvelvet + confetti + lemon + chocochocchip + whitechocrasp + vanilla + strawcream + carrot + oreo + gfchocchip + gflemonrasp;
         const totalPrice = totalQuantity * pricePerCake;
 
         if (totalQuantity === 0) {
@@ -115,6 +118,7 @@
     }
 
     function goToPayment() {
+        // Replace with your payment link
         window.location.href = "YOUR_PAY_LINK";
     }
 </script>
