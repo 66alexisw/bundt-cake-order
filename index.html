@@ -75,17 +75,23 @@ orderForm.addEventListener("submit", function(e) {
   };
 
   const total = calculateTotal();
-  if (!order.name || !order.email) { alert("Enter name and email."); return; }
-  if (total === 0) { alert("Select at least one cake."); return; }
+  if (!order.name || !order.email) {
+    alert("Please enter your name and email.");
+    return;
+  }
+  if (total === 0) {
+    alert("Please select at least one cake.");
+    return;
+  }
 
-  // Send order to Google Sheet
-  fetch(https://script.google.com/macros/s/AKfycbwkcm6pIxNf2yiSfqt5yIZRQyoRMMzwgiD9ccDFZe9M85i6g3GYT5zwT7hldipE4wi8/exec, { 
+  fetch("https://script.google.com/macros/s/AKfycbwkcm6pIxNf2yiSfqt5yIZRQyoRMMzwgiD9ccDFZe9M85i6g3GYT5zwT7hldipE4wi8/exec", {
     method: "POST",
     body: JSON.stringify(order)
-  }).then(() => {
-    // Redirect to Cash App
+  })
+  .then(() => {
     window.location.href = "https://cash.app/$56Treasury?qr=1";
-  }).catch(() => alert("Error submitting order."));
+  })
+  .catch(() => alert("Error submitting order. Please try again."));
 });
 </script>
 
