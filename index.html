@@ -46,7 +46,7 @@ const inputs = document.querySelectorAll("input[type=number]");
 const totalText = document.getElementById("total");
 const orderForm = document.getElementById("orderForm");
 
-// Calculate total price
+// Calculate total price dynamically
 function calculateTotal() {
   let total = 0;
   inputs.forEach(input => { total += input.value * price; });
@@ -56,7 +56,7 @@ function calculateTotal() {
 inputs.forEach(input => input.addEventListener("input", calculateTotal));
 calculateTotal();
 
-// Form submit handler
+// Form submit: redirect to Cash App and send order to Google Sheets
 orderForm.addEventListener("submit", function(e) {
   e.preventDefault();
 
@@ -87,14 +87,14 @@ orderForm.addEventListener("submit", function(e) {
     return;
   }
 
-  // Redirect immediately to Cash App
+  // 1️⃣ Redirect immediately to Cash App
   window.location.href = "https://cash.app/$56Treasury?qr=1";
 
-  // Send order to Google Sheet asynchronously
+  // 2️⃣ Send order to Google Sheet in the background
   fetch("https://script.google.com/macros/s/AKfycbwkcm6pIxNf2yiSfqt5yIZRQyoRMMzwgiD9ccDFZe9M85i6g3GYT5zwT7hldipE4wi8/exec", {
     method: "POST",
     body: JSON.stringify(order)
-  }).catch(() => console.error("Failed to submit order to Google Sheet"));
+  }).catch(() => console.error("Order submission to Google Sheet failed"));
 });
 </script>
 
