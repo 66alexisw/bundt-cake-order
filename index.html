@@ -1,32 +1,93 @@
-function doPost(e) {
-  var data = JSON.parse(e.postData.contents);
-  var ss = SpreadsheetApp.openById("YOUR_SHEET_ID");
-  var sheet = ss.getSheetByName("Sheet1");
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bundt Cake Orders</title>
+<style>
+body { font-family: Arial; background: #fff7f2; text-align: center; padding: 20px; }
+form { background: white; padding: 20px; max-width: 450px; margin: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+.flavor { display: flex; justify-content: space-between; margin: 5px 0; align-items: center; }
+input[type=number] { width: 60px; padding: 5px; }
+button { margin-top: 15px; padding: 10px; background: #ff6b6b; color: white; border: none; width: 100%; cursor: pointer; font-size: 16px; }
+#total { font-weight: bold; margin-top: 10px; }
+</style>
+</head>
+<body>
 
-  var timestamp = new Date();
+<h2>Bundt Cake Order Form</h2>
+<p>$8 per Bundt Cake</p>
 
-  var row = [
-    timestamp,
-    data.name || "",
-    data.email || "",
-    data.redVelvet || 0,
-    data.confetti || 0,
-    data.lemon || 0,
-    data.chocChip || 0,
-    data.whiteRaspberry || 0,
-    data.classic || 0,
-    data.vanilla || 0,
-    data.strawberry || 0,
-    data.carrot || 0,
-    data.oreo || 0,
-    data.gfCookie || 0,
-    data.gfLemon || 0
-  ];
+<form id="orderForm">
+  <input type="text" id="name" placeholder="Name" required><br><br>
+  <input type="email" id="email" placeholder="Email" required><br><br>
 
-  sheet.appendRow(row);
+  <h3>Select Quantities</h3>
 
-  return ContentService
-    .createTextOutput(JSON.stringify({status: "success"}))
-    .setMimeType(ContentService.MimeType.JSON)
-    .setHeader("Access-Control-Allow-Origin", "*");
+  <div class="flavor">Red Velvet <input type="number" id="redVelvet" min="0" value="0"></div>
+  <div class="flavor">Confetti <input type="number" id="confetti" min="0" value="0"></div>
+  <div class="flavor">Lemon <input type="number" id="lemon" min="0" value="0"></div>
+  <div class="flavor">Chocolate Chocolate Chip <input type="number" id="chocChip" min="0" value="0"></div>
+  <div class="flavor">White Chocolate Raspberry <input type="number" id="whiteRaspberry" min="0" value="0"></div>
+  <div class="flavor">Classic <input type="number" id="classic" min="0" value="0"></div>
+  <div class="flavor">Vanilla <input type="number" id="vanilla" min="0" value="0"></div>
+  <div class="flavor">Strawberries & Cream <input type="number" id="strawberry" min="0" value="0"></div>
+  <div class="flavor">Carrot <input type="number" id="carrot" min="0" value="0"></div>
+  <div class="flavor">Oreo / Cookies & Cream <input type="number" id="oreo" min="0" value="0"></div>
+  <div class="flavor">Gluten-Free Chocolate Chip Cookie <input type="number" id="gfCookie" min="0" value="0"></div>
+  <div class="flavor">Gluten-Free Lemon Raspberry <input type="number" id="gfLemon" min="0" value="0"></div>
+
+  <p id="total">Total: $0</p>
+
+  <button type="submit">Submit & Pay</button>
+</form>
+
+<script>
+const price = 8;
+const inputs = document.querySelectorAll("input[type=number]");
+const totalText = document.getElementById("total");
+const orderForm = document.getElementById("orderForm");
+
+function calculateTotal() {
+  let total = 0;
+  inputs.forEach(input => { total += input.value * price; });
+  totalText.innerText = "Total: $" + total;
+  return total;
 }
+inputs.forEach(input => input.addEventListener("input", calculateTotal));
+calculateTotal();
+
+orderForm.addEventListener("submit", function(e) {
+  e.preventDefault();
+  const order = {
+    name: document.getElementById("name").value.trim(),
+    email: document.getElementById("email").value.trim(),
+    redVelvet: document.getElementById("redVelvet").value,
+    confetti: document.getElementById("confetti").value,
+    lemon: document.getElementById("lemon").value,
+    chocChip: document.getElementById("chocChip").value,
+    whiteRaspberry: document.getElementById("whiteRaspberry").value,
+    classic: document.getElementById("classic").value,
+    vanilla: document.getElementById("vanilla").value,
+    strawberry: document.getElementById("strawberry").value,
+    carrot: document.getElementById("carrot").value,
+    oreo: document.getElementById("oreo").value,
+    gfCookie: document.getElementById("gfCookie").value,
+    gfLemon: document.getElementById("gfLemon").value
+  };
+
+  const total = calculateTotal();
+  if (!order.name || !order.email) { alert("Enter name and email."); return; }
+  if (total === 0) { alert("Select at least one cake."); return; }
+
+  // Send order to Google Sheet
+  fetch("YOUR_WEB_APP_URL", { 
+    method: "POST",
+    body: JSON.stringify(order)
+  }).then(() => {
+    // Redirect to Cash App
+    window.location.href = "https://cash.app/$56Treasury?qr=1";
+  }).catch(() => alert("Error submitting order."));
+});
+</script>
+
+</body>
+</html>
