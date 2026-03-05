@@ -88,6 +88,10 @@ orderForm.addEventListener("submit", function(e) {
     method: "POST",
     body: JSON.stringify(order)
   })
+  .then(res => {
+    if (!res.ok) throw new Error("Network response was not ok");
+    return res.json();
+  })
   .then(() => {
     window.location.href = "https://cash.app/$56Treasury?qr=1";
   })
