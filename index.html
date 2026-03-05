@@ -79,7 +79,7 @@ orderForm.addEventListener("submit", function(e) {
   if (total === 0) { alert("Select at least one cake."); return; }
 
   // Send order to Google Sheet
-  fetch("YOUR_WEB_APP_URL", { 
+  fetch(https://script.google.com/macros/s/AKfycbwkcm6pIxNf2yiSfqt5yIZRQyoRMMzwgiD9ccDFZe9M85i6g3GYT5zwT7hldipE4wi8/exec, { 
     method: "POST",
     body: JSON.stringify(order)
   }).then(() => {
