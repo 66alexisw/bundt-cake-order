@@ -4,67 +4,83 @@
 <title>Bundt Cake Orders</title>
 
 <style>
-body{
-font-family:Arial;
-background:#fff7f2;
-text-align:center;
+body {
+  font-family: Arial, sans-serif;
+  background: #fff7f2;
+  text-align: center;
+  padding: 20px;
 }
 
-form{
-background:white;
-padding:20px;
-max-width:450px;
-margin:auto;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+form {
+  background: white;
+  padding: 20px;
+  max-width: 450px;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-.flavor{
-display:flex;
-justify-content:space-between;
-margin:5px 0;
+.flavor {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+  align-items: center;
 }
 
-input[type=number]{
-width:60px;
+input[type=number] {
+  width: 60px;
+  padding: 5px;
 }
 
-button{
-margin-top:15px;
-padding:10px;
-background:#ff6b6b;
-color:white;
-border:none;
-width:100%;
-cursor:pointer;
+button {
+  margin-top: 15px;
+  padding: 10px;
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 #orderSummary {
-background:#fff;
-border:1px solid #ccc;
-max-width:450px;
-margin:auto;
-padding:20px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
-display:none;
-text-align:left;
+  background: #fff;
+  border: 1px solid #ccc;
+  max-width: 450px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  display: none;
+  text-align: left;
 }
 
 #orderSummary h3 {
-text-align:center;
+  text-align: center;
+  margin-bottom: 15px;
 }
 
 #orderSummary button {
-width:100%;
-margin-top:15px;
-background:#28a745;
-color:white;
-border:none;
-padding:10px;
-cursor:pointer;
+  width: 100%;
+  margin-top: 15px;
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
+#orderSummary button.edit {
+  background: #ffc107;
+  margin-top: 10px;
+  color: black;
+}
+
+#totalPrice {
+  font-weight: bold;
+  margin-top: 10px;
+}
 </style>
 </head>
 
@@ -75,81 +91,48 @@ cursor:pointer;
 
 <form id="orderForm">
 
-<input type="text" id="name" placeholder="Name" required><br><br>
-<input type="email" id="email" placeholder="Email" required><br><br>
+  <input type="text" id="name" placeholder="Name" required><br><br>
+  <input type="email" id="email" placeholder="Email" required><br><br>
 
-<h3>Select Quantities</h3>
+  <h3>Select Quantities</h3>
 
-<div class="flavor">Red Velvet <input type="number" id="redVelvet" min="0" value="0"></div>
-<div class="flavor">Confetti <input type="number" id="confetti" min="0" value="0"></div>
-<div class="flavor">Lemon <input type="number" id="lemon" min="0" value="0"></div>
-<div class="flavor">Chocolate Chocolate Chip <input type="number" id="chocChip" min="0" value="0"></div>
-<div class="flavor">White Chocolate Raspberry <input type="number" id="whiteRaspberry" min="0" value="0"></div>
-<div class="flavor">Classic <input type="number" id="classic" min="0" value="0"></div>
-<div class="flavor">Vanilla <input type="number" id="vanilla" min="0" value="0"></div>
-<div class="flavor">Strawberries & Cream <input type="number" id="strawberry" min="0" value="0"></div>
-<div class="flavor">Carrot <input type="number" id="carrot" min="0" value="0"></div>
-<div class="flavor">Oreo / Cookies & Cream <input type="number" id="oreo" min="0" value="0"></div>
-<div class="flavor">Gluten-Free Chocolate Chip Cookie <input type="number" id="gfCookie" min="0" value="0"></div>
-<div class="flavor">Gluten-Free Lemon Raspberry <input type="number" id="gfLemon" min="0" value="0"></div>
+  <div class="flavor">Red Velvet <input type="number" id="redVelvet" min="0" value="0"></div>
+  <div class="flavor">Confetti <input type="number" id="confetti" min="0" value="0"></div>
+  <div class="flavor">Lemon <input type="number" id="lemon" min="0" value="0"></div>
+  <div class="flavor">Chocolate Chocolate Chip <input type="number" id="chocChip" min="0" value="0"></div>
+  <div class="flavor">White Chocolate Raspberry <input type="number" id="whiteRaspberry" min="0" value="0"></div>
+  <div class="flavor">Classic <input type="number" id="classic" min="0" value="0"></div>
+  <div class="flavor">Vanilla <input type="number" id="vanilla" min="0" value="0"></div>
+  <div class="flavor">Strawberries & Cream <input type="number" id="strawberry" min="0" value="0"></div>
+  <div class="flavor">Carrot <input type="number" id="carrot" min="0" value="0"></div>
+  <div class="flavor">Oreo / Cookies & Cream <input type="number" id="oreo" min="0" value="0"></div>
+  <div class="flavor">Gluten-Free Chocolate Chip Cookie <input type="number" id="gfCookie" min="0" value="0"></div>
+  <div class="flavor">Gluten-Free Lemon Raspberry <input type="number" id="gfLemon" min="0" value="0"></div>
 
-<p id="total">Total: $0</p>
+  <p id="total">Total: $0</p>
 
-<button type="submit">Review Order & Pay</button>
+  <button type="submit">Review Order & Pay</button>
 
 </form>
 
 <div id="orderSummary">
-<h3>Order Summary</h3>
-<div id="summaryDetails"></div>
-<button id="confirmPay">Pay with Cash App</button>
-<button id="editOrder" style="background:#ffc107; margin-top:10px;">Edit Order</button>
+  <h3>Order Summary</h3>
+  <div id="summaryDetails"></div>
+  <p id="totalPrice"></p>
+  <button id="confirmPay">Pay with Cash App</button>
+  <button id="editOrder" class="edit">Edit Order</button>
 </div>
 
 <script>
-
 const price = 8;
 const inputs = document.querySelectorAll("input[type=number]");
 const totalText = document.getElementById("total");
 const orderForm = document.getElementById("orderForm");
 const orderSummary = document.getElementById("orderSummary");
 const summaryDetails = document.getElementById("summaryDetails");
+const totalPrice = document.getElementById("totalPrice");
 const confirmPayBtn = document.getElementById("confirmPay");
 const editOrderBtn = document.getElementById("editOrder");
-
-function calculateTotal(){
-  let total = 0;
-  inputs.forEach(input=>{
-    total += input.value * price;
-  });
-  totalText.innerText = "Total: $" + total;
-  return total;
-}
-
-inputs.forEach(input=>{
-  input.addEventListener("input", calculateTotal);
-});
-
-function buildSummary(order) {
-  let html = `<p><strong>Name:</strong> ${order.name}</p>`;
-  html += `<p><strong>Email:</strong> ${order.email}</p>`;
-  html += `<h4>Items:</h4><ul>`;
-
-  let hasItems = false;
-  for (const [key, value] of Object.entries(order)) {
-    if (key !== "name" && key !== "email" && Number(value) > 0) {
-      const flavorName = flavorNames[key];
-      html += `<li>${flavorName}: ${value}</li>`;
-      hasItems = true;
-    }
-  }
-  html += `</ul>`;
-  if (!hasItems) {
-    html += `<p><em>No items selected!</em></p>`;
-  }
-  html += `<p><strong>Total:</strong> $${calculateTotal()}</p>`;
-  return html;
-}
 
 const flavorNames = {
   redVelvet: "Red Velvet",
@@ -166,11 +149,45 @@ const flavorNames = {
   gfLemon: "Gluten-Free Lemon Raspberry"
 };
 
-orderForm.addEventListener("submit", function(e){
+// Calculate and show total price below form
+function calculateTotal() {
+  let total = 0;
+  inputs.forEach(input => {
+    total += input.value * price;
+  });
+  totalText.innerText = "Total: $" + total;
+  return total;
+}
+inputs.forEach(input => input.addEventListener("input", calculateTotal));
+calculateTotal();
+
+// Build order summary HTML
+function buildSummary(order) {
+  let html = `<p><strong>Name:</strong> ${order.name}</p>`;
+  html += `<p><strong>Email:</strong> ${order.email}</p>`;
+  html += `<h4>Items:</h4><ul>`;
+
+  let hasItems = false;
+  for (const key in flavorNames) {
+    if (Number(order[key]) > 0) {
+      html += `<li>${flavorNames[key]}: ${order[key]}</li>`;
+      hasItems = true;
+    }
+  }
+  html += `</ul>`;
+
+  if (!hasItems) {
+    html += `<p><em>No items selected!</em></p>`;
+  }
+
+  return html;
+}
+
+// Handle form submit: show summary and confirm buttons
+orderForm.addEventListener("submit", function(e) {
   e.preventDefault();
 
-  // Build order object
-  let order = {
+  const order = {
     name: document.getElementById("name").value.trim(),
     email: document.getElementById("email").value.trim(),
     redVelvet: document.getElementById("redVelvet").value,
@@ -187,46 +204,48 @@ orderForm.addEventListener("submit", function(e){
     gfLemon: document.getElementById("gfLemon").value
   };
 
-  const total = calculateTotal();
-
   if (!order.name || !order.email) {
     alert("Please enter your name and email.");
     return;
   }
 
+  const total = calculateTotal();
   if (total === 0) {
     alert("Please select at least one cake to order.");
     return;
   }
 
-  // Show order summary
   summaryDetails.innerHTML = buildSummary(order);
+  totalPrice.innerText = `Total Price: $${total}`;
+  
   orderForm.style.display = "none";
   orderSummary.style.display = "block";
 
-  // Confirm Pay button action
   confirmPayBtn.onclick = () => {
-    // Send order to Google Script then redirect to Cash App
-    fetch("https://script.google.com/macros/s/AKfycbwS3fS2ndUCvJ1q09s0Kdd5uJ1Lt5qY9uaJcms0tNeWajOE8yyDvSmVLekC6NSuO52FyQ/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbwkcm6pIxNf2yiSfqt5yIZRQyoRMMzwgiD9ccDFZe9M85i6g3GYT5zwT7hldipE4wi8/exec", {
       method: "POST",
       body: JSON.stringify(order)
     })
-    .then(res => res.json())
-    .then(response => {
+    .then(res => {
+      if (!res.ok) throw new Error("Network response was not ok");
+      return res.json();
+    })
+    .then(() => {
       window.location.href = "https://cash.app/$56Treasury?qr=1";
     })
     .catch(() => alert("Error submitting order. Please try again."));
   };
-
-  // Edit order button action
-  editOrderBtn.onclick = () => {
-    orderSummary.style.display = "none";
-    orderForm.style.display = "block";
-  };
 });
 
-inputs.forEach(input => input.addEventListener("input", calculateTotal));
-calculateTotal();
+// Edit order button to go back and change form
+editOrderBtn.addEventListener("click", () => {
+  orderSummary.style.display = "none";
+  orderForm.style.display = "block";
+});
+</script>
+
+</body>
+</html>
 
 </script>
 
