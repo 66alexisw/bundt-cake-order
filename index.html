@@ -39,6 +39,32 @@ width:100%;
 cursor:pointer;
 }
 
+#orderSummary {
+background:#fff;
+border:1px solid #ccc;
+max-width:450px;
+margin:auto;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+display:none;
+text-align:left;
+}
+
+#orderSummary h3 {
+text-align:center;
+}
+
+#orderSummary button {
+width:100%;
+margin-top:15px;
+background:#28a745;
+color:white;
+border:none;
+padding:10px;
+cursor:pointer;
+}
+
 </style>
 </head>
 
@@ -69,63 +95,138 @@ cursor:pointer;
 
 <p id="total">Total: $0</p>
 
-<button type="submit">Submit Order & Pay</button>
+<button type="submit">Review Order & Pay</button>
 
 </form>
+
+<div id="orderSummary">
+<h3>Order Summary</h3>
+<div id="summaryDetails"></div>
+<button id="confirmPay">Pay with Cash App</button>
+<button id="editOrder" style="background:#ffc107; margin-top:10px;">Edit Order</button>
+</div>
 
 <script>
 
 const price = 8;
 const inputs = document.querySelectorAll("input[type=number]");
 const totalText = document.getElementById("total");
+const orderForm = document.getElementById("orderForm");
+const orderSummary = document.getElementById("orderSummary");
+const summaryDetails = document.getElementById("summaryDetails");
+const confirmPayBtn = document.getElementById("confirmPay");
+const editOrderBtn = document.getElementById("editOrder");
 
 function calculateTotal(){
-
-let total = 0;
-
-inputs.forEach(input=>{
-total += input.value * price;
-});
-
-totalText.innerText = "Total: $" + total;
-
+  let total = 0;
+  inputs.forEach(input=>{
+    total += input.value * price;
+  });
+  totalText.innerText = "Total: $" + total;
+  return total;
 }
 
 inputs.forEach(input=>{
-input.addEventListener("input",calculateTotal);
+  input.addEventListener("input", calculateTotal);
 });
 
-document.getElementById("orderForm").addEventListener("submit", function(e){
+function buildSummary(order) {
+  let html = `<p><strong>Name:</strong> ${order.name}</p>`;
+  html += `<p><strong>Email:</strong> ${order.email}</p>`;
+  html += `<h4>Items:</h4><ul>`;
 
-e.preventDefault();
+  let hasItems = false;
+  for (const [key, value] of Object.entries(order)) {
+    if (key !== "name" && key !== "email" && Number(value) > 0) {
+      const flavorName = flavorNames[key];
+      html += `<li>${flavorName}: ${value}</li>`;
+      hasItems = true;
+    }
+  }
+  html += `</ul>`;
+  if (!hasItems) {
+    html += `<p><em>No items selected!</em></p>`;
+  }
+  html += `<p><strong>Total:</strong> $${calculateTotal()}</p>`;
+  return html;
+}
 
-let order = {
-name: document.getElementById("name").value,
-email: document.getElementById("email").value,
-redVelvet: document.getElementById("redVelvet").value,
-confetti: document.getElementById("confetti").value,
-lemon: document.getElementById("lemon").value,
-chocChip: document.getElementById("chocChip").value,
-whiteRaspberry: document.getElementById("whiteRaspberry").value,
-classic: document.getElementById("classic").value,
-vanilla: document.getElementById("vanilla").value,
-strawberry: document.getElementById("strawberry").value,
-carrot: document.getElementById("carrot").value,
-oreo: document.getElementById("oreo").value,
-gfCookie: document.getElementById("gfCookie").value,
-gfLemon: document.getElementById("gfLemon").value
+const flavorNames = {
+  redVelvet: "Red Velvet",
+  confetti: "Confetti",
+  lemon: "Lemon",
+  chocChip: "Chocolate Chocolate Chip",
+  whiteRaspberry: "White Chocolate Raspberry",
+  classic: "Classic",
+  vanilla: "Vanilla",
+  strawberry: "Strawberries & Cream",
+  carrot: "Carrot",
+  oreo: "Oreo / Cookies & Cream",
+  gfCookie: "Gluten-Free Chocolate Chip Cookie",
+  gfLemon: "Gluten-Free Lemon Raspberry"
 };
 
-fetch("https://script.google.com/macros/s/AKfycbwS3fS2ndUCvJ1q09s0Kdd5uJ1Lt5qY9uaJcms0tNeWajOE8yyDvSmVLekC6NSuO52FyQ/exec",{
-method:"POST",
-body:JSON.stringify(order)
-})
-.then(res=>res.json())
-.then(response=>{
-window.location.href="https://cash.app/$56Treasury?qr=1";
+orderForm.addEventListener("submit", function(e){
+  e.preventDefault();
+
+  // Build order object
+  let order = {
+    name: document.getElementById("name").value.trim(),
+    email: document.getElementById("email").value.trim(),
+    redVelvet: document.getElementById("redVelvet").value,
+    confetti: document.getElementById("confetti").value,
+    lemon: document.getElementById("lemon").value,
+    chocChip: document.getElementById("chocChip").value,
+    whiteRaspberry: document.getElementById("whiteRaspberry").value,
+    classic: document.getElementById("classic").value,
+    vanilla: document.getElementById("vanilla").value,
+    strawberry: document.getElementById("strawberry").value,
+    carrot: document.getElementById("carrot").value,
+    oreo: document.getElementById("oreo").value,
+    gfCookie: document.getElementById("gfCookie").value,
+    gfLemon: document.getElementById("gfLemon").value
+  };
+
+  const total = calculateTotal();
+
+  if (!order.name || !order.email) {
+    alert("Please enter your name and email.");
+    return;
+  }
+
+  if (total === 0) {
+    alert("Please select at least one cake to order.");
+    return;
+  }
+
+  // Show order summary
+  summaryDetails.innerHTML = buildSummary(order);
+  orderForm.style.display = "none";
+  orderSummary.style.display = "block";
+
+  // Confirm Pay button action
+  confirmPayBtn.onclick = () => {
+    // Send order to Google Script then redirect to Cash App
+    fetch("https://script.google.com/macros/s/AKfycbwS3fS2ndUCvJ1q09s0Kdd5uJ1Lt5qY9uaJcms0tNeWajOE8yyDvSmVLekC6NSuO52FyQ/exec", {
+      method: "POST",
+      body: JSON.stringify(order)
+    })
+    .then(res => res.json())
+    .then(response => {
+      window.location.href = "https://cash.app/$56Treasury?qr=1";
+    })
+    .catch(() => alert("Error submitting order. Please try again."));
+  };
+
+  // Edit order button action
+  editOrderBtn.onclick = () => {
+    orderSummary.style.display = "none";
+    orderForm.style.display = "block";
+  };
 });
 
-});
+inputs.forEach(input => input.addEventListener("input", calculateTotal));
+calculateTotal();
 
 </script>
 
