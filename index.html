@@ -6,30 +6,36 @@
 <style>
 body{
 font-family:Arial;
-text-align:center;
 background:#fff7f2;
+text-align:center;
 }
 
 form{
 background:white;
 padding:20px;
-width:300px;
+max-width:400px;
 margin:auto;
 border-radius:10px;
 box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
-input,select{
-width:100%;
-padding:8px;
+input{
+width:60px;
+margin:4px;
+}
+
+.flavor{
+display:flex;
+justify-content:space-between;
 margin:5px 0;
 }
 
 button{
+margin-top:15px;
+padding:10px;
 background:#ff6b6b;
 color:white;
 border:none;
-padding:10px;
 width:100%;
 cursor:pointer;
 }
@@ -42,42 +48,63 @@ cursor:pointer;
 <h2>Bundt Cake Order Form</h2>
 <p>$8 per Bundt Cake</p>
 
-<form action="https://formspree.io/f/YOURCODE" method="POST">
+<form>
 
-<input type="text" name="name" placeholder="Name" required>
+<input type="text" placeholder="Name" required><br><br>
+<input type="email" placeholder="Email" required><br><br>
 
-<input type="email" name="email" placeholder="Email" required>
+<h3>Select Quantities</h3>
 
-<select name="flavor">
+<div class="flavor">Red Velvet <input type="number" min="0" value="0"></div>
+<div class="flavor">Confetti <input type="number" min="0" value="0"></div>
+<div class="flavor">Lemon <input type="number" min="0" value="0"></div>
+<div class="flavor">Chocolate <input type="number" min="0" value="0"></div>
+<div class="flavor">Chocolate Chip <input type="number" min="0" value="0"></div>
+<div class="flavor">White Chocolate Raspberry <input type="number" min="0" value="0"></div>
+<div class="flavor">Classic <input type="number" min="0" value="0"></div>
+<div class="flavor">Vanilla <input type="number" min="0" value="0"></div>
+<div class="flavor">Strawberries & Cream <input type="number" min="0" value="0"></div>
+<div class="flavor">Carrot <input type="number" min="0" value="0"></div>
+<div class="flavor">Oreo / Cookies & Cream <input type="number" min="0" value="0"></div>
+<div class="flavor">Gluten-Free Chocolate Chip Cookie <input type="number" min="0" value="0"></div>
+<div class="flavor">Gluten-Free Lemon Raspberry <input type="number" min="0" value="0"></div>
 
-<option>Red Velvet</option>
-<option>Confetti</option>
-<option>Lemon</option>
-<option>Chocolate</option>
-<option>Chocolate Chip</option>
-<option>White Chocolate Raspberry</option>
-<option>Classic</option>
-<option>Vanilla</option>
-<option>Strawberries and Cream</option>
-<option>Carrot</option>
-<option>Oreo</option>
-<option>Cookies and Cream</option>
-<option>Gluten-Free Chocolate Chip Cookie</option>
-<option>Gluten-Free Lemon Raspberry</option>
+<p id="total">$0</p>
 
-</select>
-
-<input type="number" name="quantity" min="1" value="1">
-
-<button type="submit">Submit Order</button>
+<button type="button" onclick="pay()">Submit Order & Pay</button>
 
 </form>
 
-<br>
+<script>
 
-<a href="https://cash.app/$56Treasury?qr=1">
-<button>Pay with Cash App</button>
-</a>
+const price = 8;
+
+const inputs = document.querySelectorAll("input[type=number]");
+const totalText = document.getElementById("total");
+
+function calculateTotal(){
+
+let total = 0;
+
+inputs.forEach(input=>{
+total += input.value * price;
+});
+
+totalText.innerText = "Total: $" + total;
+
+}
+
+inputs.forEach(input=>{
+input.addEventListener("input",calculateTotal);
+});
+
+function pay(){
+
+window.location.href="https://cash.app/$56Treasury?qr=1";
+
+}
+
+</script>
 
 </body>
 </html>
