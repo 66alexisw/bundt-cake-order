@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bundt Cake Orders</title>
+
+<style>
+body{
+font-family:Arial;
+text-align:center;
+background:#fff7f2;
+}
+
+form{
+background:white;
+padding:20px;
+width:300px;
+margin:auto;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+input,select{
+width:100%;
+padding:8px;
+margin:5px 0;
+}
+
+button{
+background:#ff6b6b;
+color:white;
+border:none;
+padding:10px;
+width:100%;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Bundt Cake Order Form</h2>
+<p>$8 per Bundt Cake</p>
+
+<form action="https://formspree.io/f/YOURCODE" method="POST">
+
+<input type="text" name="name" placeholder="Name" required>
+
+<input type="email" name="email" placeholder="Email" required>
+
+<select name="flavor">
+
+<option>Red Velvet</option>
+<option>Confetti</option>
+<option>Lemon</option>
+<option>Chocolate</option>
+<option>Chocolate Chip</option>
+<option>White Chocolate Raspberry</option>
+<option>Classic</option>
+<option>Vanilla</option>
+<option>Strawberries and Cream</option>
+<option>Carrot</option>
+<option>Oreo</option>
+<option>Cookies and Cream</option>
+<option>Gluten-Free Chocolate Chip Cookie</option>
+<option>Gluten-Free Lemon Raspberry</option>
+
+</select>
+
+<input type="number" name="quantity" min="1" value="1">
+
+<button type="submit">Submit Order</button>
+
+</form>
+
+<br>
+
+<a href="https://cash.app/$56Treasury?qr=1">
+<button>Pay with Cash App</button>
+</a>
+
+</body>
+</html>
